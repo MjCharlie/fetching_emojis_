@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>card</title>
+    <style>
+        .dropbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+
+          }
+          
+          .dropdown {
+            position: relative;
+            display: inline-block;
+          }
+          
+          .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            
+            
+          }
+          
+          .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            
+          }
+          
+          .dropdown-content a:hover {background-color: #f1f1f1}
+          
+          .dropdown:hover .dropdown-content {
+            display: block;
+          }
+          
+          .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+          }
+        .emoji {
+            transition: 0.4s;
+            height: auto;
+            width: auto;
+            border-radius: 5px;
+            border: 1px solid;
+            padding: 10px;
+            box-shadow: 5px 10px 18px #000000;
+            margin-left: 70px;
+            margin-top: 30px;
+            margin-right: 70px;
+            margin-bottom: 10px;
+
+        }
+
+        .emoji:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            height: auto;
+            width: auto;
+        }
+
+        span {
+            height: 5em;
+            width: 5em;
+            font-size: 30px;
+            border-radius: 5px;
+            margin-top: 7px;
+            margin-left: 7px;
+            margin-bottom: 7px;
+            margin-right: 7px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dropdown">
+        <button class="dropbtn">Groups</button>
+        <div class="dropdown-content">
+          <a href="#" onclick="group('face positive')">face positive</a>
+          <a href="#" onclick="group('face negative')">face negative</a>
+          <a href="#" onclick="group('face neutral')">face neutral</a>
+          <a href="#" onclick="group('face role')">face role</a>
+          <a href="#" onclick="group('face sick')">face sick</a>
+          <a href="#" onclick="group('creature face')">creature face</a>
+          <a href="#" onclick="group('cat face')">cat face</a>
+          <a href="#" onclick="group('monkey face')">monkey face</a>
+          <a href="#" onclick="group('person')">person</a>
+          <a href="#" onclick="group('person role')">person role</a>
+          <a href="#" onclick="group('person gesture')">person gesture</a>
+          <a href="#" onclick="group('person activity')">person activity</a>
+          <a href="#" onclick="group('family')">family</a>
+          <a href="#" onclick="group('skin tone')">skin tone</a>
+          <a href="#" onclick="group('body')">body</a>
+          <a href="#" onclick="group('emotion')">emotion</a>
+          <a href="#" onclick="group('clothing')">clothing</a>
+          <a href="#" onclick="group('animal mammal')">animal mammal</a>
+          <a href="#" onclick="group('animal bird')">animal bird</a>
+          <a href="#" onclick="group('animal amphibian')">animal amphibian</a>
+          <a href="#" onclick="group('animal reptile')">animal reptile</a>
+          <a href="#" onclick="group('animal marine')">animal marine</a>
+          <a href="#" onclick="group('animal bugs')">animal bug</a>
+          <a href="#" onclick="group('plant flower')">plant flower</a>
+          <a href="#" onclick="group('plant other')">plant other</a>
+          <a href="#" onclick="group('food fruit')">food fruit</a>
+          <a href="#" onclick="group('food vegetable')">food vegetable</a>
+          <a href="#" onclick="group('food prepared')">food prepared</a>
+          <a href="#" onclick="group('food asian')">food asian</a>
+          <a href="#" onclick="group('food sweet')">food sweet</a>
+          <a href="#" onclick="group('drink')">drink</a>
+          <a href="#" onclick="group('dishware')">dishware</a>
+          <a href="#" onclick="group('travel and places')">travel and places</a>
+          <a href="#" onclick="group('activities')">activities</a>
+          <a href="#" onclick="group('objects')">objects</a>
+          <a href="#" onclick="group('symbols')">symbols</a>
+          <a href="#" onclick="group('flags')">flags</a>
+
+        </div>
+      </div>
+    <div class="container">
+
+    </div>
+    <script>
+        fetch("https://emojihub.yurace.pro/api/all").then(function(response)
+        {
+            return response.json() ;
+        }).then(function(text)
+        {
+            mp = {} ;
+            for(var i in text)
+            {
+                if(text[i]["category"] in mp)
+                {
+                    mp[text[i]["category"]].push(text[i]) ;
+                }
+                else
+                {
+                    mp[text[i]["category"]] = [text[i] , ] ;
+                }
+            }
+            group_mp = {} ;
+            for(var i in text)
+            {
+                if(text[i]["group"] in group_mp)
+                {
+                    group_mp[text[i]["group"]].push(text[i]) ;
+                }
+                else
+                {
+                    group_mp[text[i]["group"]] = [text[i] , ] ;
+                }
+            }
+            text = ""
+            for(var i in mp)
+            {
+                text += "<div class='emoji'><div class='container'><h1><center><u>" + i + "</u></center></h1><span>" ;
+                for(var j in mp[i])
+                {
+                    text += mp[i][j]["htmlCode"][0] + " " ;
+                }
+                text += "</span></div></div>"
+            }
+            document.getElementsByClassName("container")[0].innerHTML = text
+        }) ;
+        function group(a)
+        {
+            fetch("https://emojihub.yurace.pro/api/all").then(function(response){
+                return response.json() ;
+            }).then(function(text){
+                group_mp = {} ;
+                for(var i in text)
+                {
+                    if(text[i]["group"] in group_mp)
+                    {
+                        group_mp[text[i]["group"]].push(text[i]) ;
+                    }
+                    else
+                    {
+                        group_mp[text[i]["group"]] = [text[i] , ] ;
+                    }
+                }
+                var text = "<div class='emoji'><div class='container'><h1><center><u>" + a + "</u></center></h1><span>" ;
+                for(var i in group_mp[a])
+                {
+                    text += group_mp[a][i]["htmlCode"][0] + " ";
+                }
+                text += "</span></div></div>" ;
+                document.getElementsByClassName("container")[0].innerHTML = text ;
+            })
+        }
+    </script>
+</body>
+
+</html>
